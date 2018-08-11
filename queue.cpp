@@ -1,11 +1,10 @@
 /* Copyright (C) 2018 Marcos Lessa - All Rights Reserved
  */
- 
 #ifndef STRUCTURES_ARRAY_QUEUE_H
 #define STRUCTURES_ARRAY_QUEUE_H
 
-#include <cstdint> // std::size_t
-#include <stdexcept> // C++ Exceptions
+#include <cstdint>  // std::size_t
+#include <stdexcept>  // C++ Exceptions
 
 const auto DEFAULT_SIZE = 10u;
 
@@ -22,9 +21,8 @@ class ArrayQueue {
         inicio = 0;
         size = 0;
     }
-    
-//! Construtor da fila com tamanho passado como parâmetro    
-    ArrayQueue(std::size_t max) {
+//! Construtor da fila com tamanho passado como parâmetro
+ArrayQueue(std::size_t max) {
         inicio = 0;
         fim = -1;
         size_ = 0;
@@ -32,7 +30,7 @@ class ArrayQueue {
         contents = new T[max_size_];
     }
 
-//! Destrutor da fila - desaloca o espaço na memória, anteriormente alocado para a fila
+//! Destrutor da fila - desaloca o espaço na memória armazenado para a fila
     ~ArrayQueue() {
         delete [] contents;
     }
@@ -42,7 +40,9 @@ class ArrayQueue {
         if (full()) {
             throw std::out_of_range("Fila cheia");
         } else {
-            
+            fim = (fim+1) % max_size_;
+            contents[fim] = data;
+            size_ = size_ + 1;
         }
     }
 
@@ -51,7 +51,10 @@ class ArrayQueue {
         if (empty()) {
             throw std::out_of_range("Fila vazia");
         } else {
-            
+            T dado = contents[inicio];
+            inicio = (inicio+1) % max_size_;
+            size_ = size_ - 1;
+            return dado;
         }
     }
 
@@ -60,10 +63,9 @@ class ArrayQueue {
         if (empty()) {
             throw std::out_of_range("Fila vazia");
         } else {
-            
+            return contents[fim];
         }
     }
-    
 //! Limpa a fila, caso a mesma ja nao estiver vazia
     void clear() {
         if (empty()) {
@@ -74,7 +76,6 @@ class ArrayQueue {
             inicio = 0;
         }
     }
-
 //! Retorna a quantidade de elementos presentes na fila
     std::size_t size() {
         return size_;
@@ -88,20 +89,20 @@ class ArrayQueue {
     bool empty() {
         return size_ == 0;
     }
-    
 //! Verifica se a fila esta cheia
     bool full() {
         return size_ == max_size_;
     }
 
-private:
+ private:
     T* contents;
     std::size_t size_;
+    std::size_t max_size_;
     int fim;
     std::size_t inicio;
-
 };
 
-}
+}   // namespace structures
 
-#endif  // namespace structures
+#endif
+
