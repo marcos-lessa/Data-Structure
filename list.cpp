@@ -92,16 +92,14 @@ class ArrayList {
     }
 //! Retorna um elemento T de uma posição desejada e re-ordena a fila
     T pop(std::size_t index) {
-        if (!position(index)) {
+        if (index >= size_) {
            throw std::out_of_range("Posicao invalida");
         } else {
              T wait = contents[index];
-            int pos = 0;
-            int tam = size();
-            while (tam > index) {
-                contents[index+pos] = contents[index+pos+1];
-                pos++;
-                index--;
+            int actual = index;
+            while (actual < size_-1) {
+            contents[actual] = contents[actual+1];
+            actual++;
             }
             size_--;
             return wait;
@@ -109,25 +107,11 @@ class ArrayList {
     }
 //! Remove o último elemento da lista caso a lista nao esteja vazia
     T pop_back() {
-        if (empty()) {
-            throw std::out_of_range("Pilha vazia");
-        } else {
-        size_--;
-        return contents[size_];
-        }
+        return pop (size_ - 1);
     }
 //! Remove o primeiro elemento da lista caso a lista nao esteja vazia
     T pop_front() {
-        if (empty()) {
-            throw std::out_of_range("Lista vazia");
-        } else {
-            T data = contents[0];
-            for (int i = 0; i < size(); i++) {
-                contents[i] = contents[i+1];
-            }
-            size_--;
-            return data;
-        }
+       return pop (0);
     }
 //! Remove a primeira ocorrencia do elemento da lista
     void remove(const T& data) {
