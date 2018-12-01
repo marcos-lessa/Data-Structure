@@ -1,4 +1,4 @@
-// Copyright 2018 Marcos Lesa
+// Copyright 2018 Marcos Lessa
 #ifndef STRUCTURES_LINKED_LIST_H
 #define STRUCTURES_LINKED_LIST_H
 
